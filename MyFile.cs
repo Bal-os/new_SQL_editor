@@ -1,47 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace SQL_editor_edition
 {
     class MyFile
+    // file class for standart files
     {
-        private string[] path;
-        private List<StreamReader> reader;
-        private List<string>[] data;
-        private void makeData()
+        protected const string footer = "exit"; //const for footer find 
+        private const string header_indicator_1 = "select version||decode"; //const for header find
+        private const string header_indicator_2 = "PAUSE Встановити оновлення"; //const for header find
+        private bool header_search_flag; //flag for header find
+        protected string name; //name of current file
+        protected List<string> main_text; //text of current file without header and footer
+
+        protected virtual void parseStream(ref StreamReader reader)
+        // take text from stream find and remove header remove footer, save main part
         {
-            data = new List<string>[path.Length];
-            for (int i = 0; i < path.Length; i++)
+            string line; //string for reading stream
+            header_search_flag = false;
+            while ((line = reader.ReadLine()) != footer || (line = reader.ReadLine()) != null)
             {
-                string line;
-                data[i] = new List<string>();
-                while ((line = reader[i].ReadLine()) != null)
+                if (line.Contains(header_indicator_1))
                 {
-                    data[i].Add(line);
+                    header_search_flag = true;
+                    continue;
                 }
+                if (header_search_flag && line.Contains(header_indicator_2))
+                {
+                    break;
+                }
+                else main_text.Add(line);
             }
-        }
-        public List<string>[] Data
-        {
-            get { return data; }
-        }
-        public string[] Path
-        {
-            get { return path; }
-        }
-        public MyFile(string[] path)
-        {
-            this.path = path;
-            reader = new List<StreamReader>();
-            foreach (string fileName in path)
+            while ((line = reader.ReadLine()) != footer || (line = reader.ReadLine()) != null)
             {
-                reader.Add(new StreamReader(fileName));
+                main_text.Add(line);
             }
-            makeData();
         }
+
+        public MyFile(string name, StreamReader reader)
+        //formation of file fields for convenient output
+        {
+            this.name = name;
+            main_text = new List<string>();
+            parseStream(ref reader);
+        }
+        public List<string> Main_text { get => main_text; }
+        // getter of main_text field
+
     }
 }
