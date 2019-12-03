@@ -14,7 +14,7 @@ namespace SQL_editor_edition
         protected string name; //name of current file
         protected List<string> main_text; //text of current file without header and footer
 
-        protected virtual void parseStream(ref StreamReader reader)
+        protected virtual void parseStream(ref StreamReader reader, ref ColorStaff staff)
         // take text from stream find and remove header remove footer, save main part
         {
             string line; //string for reading stream
@@ -30,20 +30,25 @@ namespace SQL_editor_edition
                 {
                     break;
                 }
-                else main_text.Add(line);
+                else
+                {
+                    staff.CheckLine(line);
+                    main_text.Add(line);
+                }     
             }
             while ((line = reader.ReadLine()) != footer || (line = reader.ReadLine()) != null)
             {
+                staff.CheckLine(line);
                 main_text.Add(line);
             }
         }
 
-        public MyFile(string name, StreamReader reader)
+        public MyFile(string name, StreamReader reader, ref ColorStaff staff)
         //formation of file fields for convenient output
         {
             this.name = name;
             main_text = new List<string>();
-            parseStream(ref reader);
+            parseStream(ref reader, ref staff);
         }
         public List<string> Main_text { get => main_text; }
         // getter of main_text field

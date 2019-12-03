@@ -11,14 +11,14 @@ namespace SQL_editor_edition
     {
         private const string footer = "exit"; //const for footer output
         private List<MyFile> files; // file class container
-        public FilesSet(string[] names)
+        public FilesSet(string[] names, ref ColorStaff staff)
         // add information from each file to the equivalent class
         {
             files = new List<MyFile>();
             Array.Sort(names);
-            files.Add(new MyFirstFile(names[0], new StreamReader(names[0], Encoding.GetEncoding(1251))));
+            files.Add(new MyFirstFile(names[0], new StreamReader(names[0], Encoding.GetEncoding(1251)), ref staff));
             for (int i = 1; i < names.Length; i++)
-                files.Add(new MyFile(names[i], new StreamReader(names[i], Encoding.GetEncoding(1251))));
+                files.Add(new MyFile(names[i], new StreamReader(names[i], Encoding.GetEncoding(1251)), ref staff));
         }
 
         public List<string> getResultFile()

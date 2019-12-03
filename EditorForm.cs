@@ -14,6 +14,7 @@ namespace SQL_editor_edition
 {
     public partial class EditorForm : Form
     {
+        private ColorStaff sqlColorizer;
         private FilesSet file;
         public EditorForm()
         {
@@ -21,7 +22,9 @@ namespace SQL_editor_edition
 
             this.OpenToolStripMenuItem.Click += OpenToolStripMenuItem_Click;
             this.SaveAsToolStripMenuItem.Click += SaveAsToolStripMenuItem_Click;
+            this.skriptTextField.TextChanged += Rchtxt_TextChanged;
 
+            sqlColorizer = new ColorStaff();
         }
         private void OpenToolStripMenuItem_Click(object sender, System.EventArgs e)
         //open file dialog and show processed text
@@ -33,7 +36,7 @@ namespace SQL_editor_edition
             try
             //get text from file output glued file on the screen 
             {
-                file = new FilesSet(names);
+                file = new FilesSet(names, ref sqlColorizer);
                 skriptTextField.Lines = file.getResultFile().ToArray();
             }
             catch (System.IO.FileNotFoundException Ex)
@@ -70,6 +73,18 @@ namespace SQL_editor_edition
                         "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
+        }
+        private void Rchtxt_TextChanged(object sender, EventArgs e)
+        //take math words and colorize them
+        {
+            skriptTextField.Hide();
+            foreach (var iter in sqlColorizer.Result)
+            {
+                skriptTextField.SelectionStart = iter.Item1;
+                skriptTextField.SelectionLength = iter.Item2;
+                skriptTextField.SelectionColor = iter.Item3;
+            }
+            skriptTextField.Show();
         }
 
     }
