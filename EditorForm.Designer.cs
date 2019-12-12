@@ -29,14 +29,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditorForm));
             this.headMenu = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.skriptTextField = new System.Windows.Forms.RichTextBox();
             this.OpenFiles = new System.Windows.Forms.OpenFileDialog();
             this.saveResultFile = new System.Windows.Forms.SaveFileDialog();
+            this.skriptTextField = new FastColoredTextBoxNS.FastColoredTextBox();
             this.headMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.skriptTextField)).BeginInit();
             this.SuspendLayout();
             // 
             // headMenu
@@ -69,27 +72,53 @@
             // SaveAsToolStripMenuItem
             // 
             this.SaveAsToolStripMenuItem.Name = "SaveAsToolStripMenuItem";
-            this.SaveAsToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.SaveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.SaveAsToolStripMenuItem.Text = "Сохранить как";
-            // 
-            // skriptTextField
-            // 
-            this.skriptTextField.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.skriptTextField.Cursor = System.Windows.Forms.Cursors.WaitCursor;
-            this.skriptTextField.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.skriptTextField.Location = new System.Drawing.Point(0, 24);
-            this.skriptTextField.Name = "skriptTextField";
-            this.skriptTextField.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.skriptTextField.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.skriptTextField.Size = new System.Drawing.Size(1016, 426);
-            this.skriptTextField.TabIndex = 2;
-            this.skriptTextField.Text = "";
-            this.skriptTextField.UseWaitCursor = true;
             // 
             // OpenFiles
             // 
             this.OpenFiles.FileName = "OpenFiles";
             this.OpenFiles.Multiselect = true;
+            // 
+            // skriptTextField
+            // 
+            this.skriptTextField.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.skriptTextField.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
+            this.skriptTextField.AutoIndentCharsPatterns = "";
+            this.skriptTextField.AutoScrollMinSize = new System.Drawing.Size(27, 14);
+            this.skriptTextField.BackBrush = null;
+            this.skriptTextField.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.skriptTextField.CharHeight = 14;
+            this.skriptTextField.CharWidth = 8;
+            this.skriptTextField.CommentPrefix = "--";
+            this.skriptTextField.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.skriptTextField.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.skriptTextField.Font = new System.Drawing.Font("Courier New", 9.75F);
+            this.skriptTextField.HighlightingRangeType = FastColoredTextBoxNS.HighlightingRangeType.VisibleRange;
+            this.skriptTextField.IsReplaceMode = false;
+            this.skriptTextField.LeftBracket = '(';
+            this.skriptTextField.Location = new System.Drawing.Point(0, 27);
+            this.skriptTextField.Name = "skriptTextField";
+            this.skriptTextField.Paddings = new System.Windows.Forms.Padding(0);
+            this.skriptTextField.RightBracket = ')';
+            this.skriptTextField.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+            this.skriptTextField.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("skriptTextField.ServiceColors")));
+            this.skriptTextField.Size = new System.Drawing.Size(1016, 422);
+            this.skriptTextField.SourceTextBox = this.skriptTextField;
+            this.skriptTextField.TabIndex = 3;
+            this.skriptTextField.Zoom = 100;
             // 
             // EditorForm
             // 
@@ -104,6 +133,7 @@
             this.Text = "SQL editor";
             this.headMenu.ResumeLayout(false);
             this.headMenu.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.skriptTextField)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -115,9 +145,9 @@
         private System.Windows.Forms.ToolStripMenuItem файлToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem OpenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem SaveAsToolStripMenuItem;
-        private System.Windows.Forms.RichTextBox skriptTextField;
         private System.Windows.Forms.OpenFileDialog OpenFiles;
         private System.Windows.Forms.SaveFileDialog saveResultFile;
+        private FastColoredTextBoxNS.FastColoredTextBox skriptTextField;
     }
 }
 

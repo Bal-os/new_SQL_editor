@@ -1,46 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Text.RegularExpressions;
-using System.Threading;
 
 namespace SQL_editor_edition
 {
     public partial class EditorForm : Form
     {
-        private ColorStaff sqlColorizer;
-        private FilesSet file;
+        private DataSet data;
         public EditorForm()
         {
             InitializeComponent();
 
-            this.OpenToolStripMenuItem.Click += OpenToolStripMenuItem_Click;
+            this.OpenToolStripMenuItem.Click += OpenToolStripMenuItem_Click; 
             this.SaveAsToolStripMenuItem.Click += SaveAsToolStripMenuItem_Click;
-            this.skriptTextField.TextChanged += Rchtxt_TextChanged;
-
-            sqlColorizer = new ColorStaff();
         }
         private void OpenToolStripMenuItem_Click(object sender, System.EventArgs e)
-        //open file dialog and show processed text
+        //open data dialog and show processed text
         {
             this.Activate();
             OpenFiles.ShowDialog();
             string[] names = OpenFiles.FileNames;
             if (names == Array.Empty<string>()) return;
             try
-            //get text from file output glued file on the screen 
+            //get text from data output glued data on the screen 
             {
-                file = new FilesSet(names, ref sqlColorizer);
-                skriptTextField.Lines = file.getResultFile().ToArray();
+                data = new DataSet(names);
+                skriptTextField.Text = data.getResultData();
             }
             catch (System.IO.FileNotFoundException Ex)
-            //handles file expetions
+            //handles data expetions
             {
                 MessageBox.Show(Ex.Message + "\nНет такого файла",
                          "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -54,9 +41,9 @@ namespace SQL_editor_edition
         }
 
         private void SaveAsToolStripMenuItem_Click(object sender, System.EventArgs e)
-        //save to file text from the screen
+        //save as file text from the screen
         {
-            saveResultFile.FileName = OpenFiles.FileName;
+            saveResultFile.FileName = data.fileName;
             if (saveResultFile.ShowDialog() == DialogResult.OK)
             {
                 try
@@ -73,18 +60,6 @@ namespace SQL_editor_edition
                         "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
-        }
-        private void Rchtxt_TextChanged(object sender, EventArgs e)
-        //take math words and colorize them
-        {
-            skriptTextField.Hide();
-            foreach (var iter in sqlColorizer.Result)
-            {
-                skriptTextField.SelectionStart = iter.Item1;
-                skriptTextField.SelectionLength = iter.Item2;
-                skriptTextField.SelectionColor = iter.Item3;
-            }
-            skriptTextField.Show();
         }
 
     }
